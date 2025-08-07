@@ -14,9 +14,26 @@ import {
   AlertCircle,
   Clock
 } from "lucide-react"
+import { useApp } from '@/contexts/AppContext'
+import ContratoForm from '@/components/forms/ContratoForm'
 
 const Financeiro = () => {
-  const contratos = [
+  const { 
+    contratos, 
+    setContratoModalOpen, 
+    isContratoModalOpen,
+    setEditingContrato,
+    updateContrato
+  } = useApp()
+
+  const handleEditContrato = (contrato: any) => {
+    setEditingContrato(contrato)
+    setContratoModalOpen(true)
+  }
+
+  const handleConfirmarPagamento = (id: number) => {
+    updateContrato(id, { status: 'Pago' })
+  }
     {
       id: 1,
       cliente: "João Silva",
@@ -96,7 +113,10 @@ const Financeiro = () => {
             <Download className="h-4 w-4 mr-2" />
             Relatório
           </Button>
-          <Button className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth">
+          <Button 
+            className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth"
+            onClick={() => setContratoModalOpen(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Novo Contrato
           </Button>
@@ -264,11 +284,19 @@ const Financeiro = () => {
                   </div>
                   
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleEditContrato(contrato)}
+                    >
                       Editar
                     </Button>
                     {contrato.status === "Pendente" && (
-                      <Button size="sm" className="bg-success hover:bg-success/90">
+                      <Button 
+                        size="sm" 
+                        className="bg-success hover:bg-success/90"
+                        onClick={() => handleConfirmarPagamento(contrato.id)}
+                      >
                         Confirmar
                       </Button>
                     )}
@@ -279,6 +307,8 @@ const Financeiro = () => {
           </div>
         </CardContent>
       </Card>
+
+      <ContratoForm open={isContratoModalOpen} onOpenChange={setContratoModalOpen} />
     </div>
   )
 }

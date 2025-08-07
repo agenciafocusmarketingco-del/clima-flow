@@ -4,53 +4,48 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Plus, Search, Package, Zap, Settings } from "lucide-react"
+import { useApp } from '@/contexts/AppContext'
+import EquipamentoForm from '@/components/forms/EquipamentoForm'
+import { useState } from 'react'
 
 const Estoque = () => {
-  const equipamentos = [
-    {
-      id: 1,
-      nome: "Ar Condicionado Split 12.000 BTUs",
-      categoria: "Ar Condicionado",
-      status: "Disponível",
-      total: 20,
-      disponiveis: 15,
-      locados: 4,
-      manutencao: 1,
-      potencia: "12.000 BTUs",
-      ultimaManutencao: "10/01/2024"
-    },
-    {
-      id: 2,
-      nome: "Ar Condicionado Central 60.000 BTUs",
-      categoria: "Ar Condicionado",
-      status: "Locado",
-      total: 10,
-      disponiveis: 8,
-      locados: 2,
-      manutencao: 0,
-      potencia: "60.000 BTUs",
-      ultimaManutencao: "05/01/2024"
-    },
-    {
-      id: 3,
-      nome: "Ventilador Industrial Grande",
-      categoria: "Ventilação",
-      status: "Manutenção",
-      total: 30,
-      disponiveis: 25,
-      locados: 3,
-      manutencao: 2,
-      potencia: "500W",
-      ultimaManutencao: "20/12/2023"
-    }
-  ]
+  const { 
+    equipamentos, 
+    setEquipamentoModalOpen, 
+    isEquipamentoModalOpen,
+    setEditingEquipamento
+  } = useApp()
 
-  const categorias = [
-    { nome: "Ar Condicionado", total: 30, disponivel: 23 },
-    { nome: "Ventilação", total: 30, disponivel: 25 },
-    { nome: "Aquecimento", total: 15, disponivel: 12 },
-    { nome: "Industrial", total: 12, disponivel: 10 }
-  ]
+  const [filtroStatus, setFiltroStatus] = useState<string>('Todos')
+  const [busca, setBusca] = useState('')
+
+  const equipamentosFiltrados = equipamentos.filter(equipamento => {
+    const matchStatus = filtroStatus === 'Todos' || equipamento.status === filtroStatus
+    const matchBusca = busca === '' || 
+      equipamento.nome.toLowerCase().includes(busca.toLowerCase()) ||
+      equipamento.categoria.toLowerCase().includes(busca.toLowerCase())
+    return matchStatus && matchBusca
+  })
+
+  const handleEditEquipamento = (equipamento: any) => {
+    setEditingEquipamento(equipamento)
+    setEquipamentoModalOpen(true)
+  }
+  // Calculate categories
+  const categorias = equipamentos.reduce((acc, eq) => {
+    const existing = acc.find(cat => cat.nome === eq.categoria)
+    if (existing) {
+      existing.total += eq.total
+      existing.disponivel += eq.disponiveis
+    } else {
+      acc.push({
+        nome: eq.categoria,
+        total: eq.total,
+        disponivel: eq.disponiveis
+      })
+    }
+    return acc
+  }, [] as Array<{ nome: string; total: number; disponivel: number }>)
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -81,7 +76,10 @@ const Estoque = () => {
           <p className="text-muted-foreground">Controle seus equipamentos e disponibilidade</p>
         </div>
         
-        <Button className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth">
+        <Button 
+          className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth"
+          onClick={() => setEquipamentoModalOpen(true)}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Novo Equipamento
         </Button>
@@ -120,13 +118,35 @@ const Estoque = () => {
               <Input
                 placeholder="Buscar equipamentos..."
                 className="pl-10 bg-background"
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
               />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline">Todos</Button>
-              <Button variant="outline">Disponíveis</Button>
-              <Button variant="outline">Locados</Button>
-              <Button variant="outline">Manutenção</Button>
+              <Button 
+                variant={filtroStatus === 'Todos' ? 'default' : 'outline'}
+                onClick={() => setFiltroStatus('Todos')}
+              >
+                Todos
+              </Button>
+              <Button 
+                variant={filtroStatus === 'Disponível' ? 'default' : 'outline'}
+                onClick={() => setFiltroStatus('Disponível')}
+              >
+                Disponíveis
+              </Button>
+              <Button 
+                variant={filtroStatus === 'Locado' ? 'default' : 'outline'}
+                onClick={() => setFiltroStatus('Locado')}
+              >
+                Locados
+              </Button>
+              <Button 
+                variant={filtroStatus === 'Manutenção' ? 'default' : 'outline'}
+                onClick={() => setFiltroStatus('Manutenção')}
+              >
+                Manutenção
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -134,7 +154,7 @@ const Estoque = () => {
 
       {/* Equipment List */}
       <div className="space-y-4">
-        {equipamentos.map((equipamento) => (
+        {equipamentosFiltrados.map((equipamento) => (
           <Card key={equipamento.id} className="bg-gradient-card border-0 shadow-md hover:shadow-lg transition-smooth">
             <CardContent className="p-6">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
@@ -179,7 +199,11 @@ const Estoque = () => {
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleEditEquipamento(equipamento)}
+                  >
                     Editar
                   </Button>
                   <Button variant="outline" size="sm">
@@ -206,6 +230,8 @@ const Estoque = () => {
           </Card>
         ))}
       </div>
+
+      <EquipamentoForm open={isEquipamentoModalOpen} onOpenChange={setEquipamentoModalOpen} />
     </div>
   )
 }

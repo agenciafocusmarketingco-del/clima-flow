@@ -11,8 +11,34 @@ import {
   CheckCircle,
   Clock
 } from "lucide-react"
+import { useApp } from '@/contexts/AppContext'
+import ClienteForm from '@/components/forms/ClienteForm'
+import EquipamentoForm from '@/components/forms/EquipamentoForm'
+import AgendamentoForm from '@/components/forms/AgendamentoForm'
+import ContratoForm from '@/components/forms/ContratoForm'
 
 const Dashboard = () => {
+  const { 
+    clientes, 
+    equipamentos, 
+    agendamentos, 
+    contratos,
+    setClienteModalOpen,
+    setEquipamentoModalOpen,
+    setAgendamentoModalOpen,
+    setPagamentoModalOpen,
+    isClienteModalOpen,
+    isEquipamentoModalOpen,
+    isAgendamentoModalOpen,
+    isPagamentoModalOpen
+  } = useApp()
+
+  // Calculate stats
+  const clientesAtivos = clientes.filter(c => c.status === 'Ativo').length
+  const equipamentosDisponiveis = equipamentos.reduce((acc, eq) => acc + eq.disponiveis, 0)
+  const equipamentosLocados = equipamentos.reduce((acc, eq) => acc + eq.locados, 0)
+  const agendamentosHoje = agendamentos.filter(a => a.data === '2024-01-15').length
+  const receitaMensal = contratos.filter(c => c.status === 'Pago').reduce((acc, c) => acc + c.valor, 0)
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
@@ -33,7 +59,7 @@ const Dashboard = () => {
             <Users className="h-5 w-5 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">142</div>
+            <div className="text-2xl font-bold text-foreground">{clientesAtivos}</div>
             <div className="flex items-center mt-2 text-sm">
               <TrendingUp className="h-4 w-4 text-success mr-1" />
               <span className="text-success">+12%</span>
@@ -50,15 +76,15 @@ const Dashboard = () => {
             <Package className="h-5 w-5 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">87</div>
+            <div className="text-2xl font-bold text-foreground">{equipamentos.length}</div>
             <div className="flex items-center justify-between mt-2">
               <Badge variant="secondary" className="text-xs">
                 <CheckCircle className="h-3 w-3 mr-1" />
-                76 Disponíveis
+                {equipamentosDisponiveis} Disponíveis
               </Badge>
               <Badge variant="destructive" className="text-xs">
                 <AlertTriangle className="h-3 w-3 mr-1" />
-                11 Locados
+                {equipamentosLocados} Locados
               </Badge>
             </div>
           </CardContent>
@@ -72,7 +98,7 @@ const Dashboard = () => {
             <Calendar className="h-5 w-5 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">8</div>
+            <div className="text-2xl font-bold text-foreground">{agendamentosHoje}</div>
             <div className="flex items-center mt-2 text-sm">
               <Clock className="h-4 w-4 text-warning mr-1" />
               <span className="text-foreground">3 entregas, 5 retiradas</span>
@@ -88,7 +114,7 @@ const Dashboard = () => {
             <DollarSign className="h-5 w-5 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">R$ 28.450</div>
+            <div className="text-2xl font-bold text-foreground">R$ {receitaMensal.toLocaleString('pt-BR')}</div>
             <div className="flex items-center mt-2 text-sm">
               <TrendingUp className="h-4 w-4 text-success mr-1" />
               <span className="text-success">+8%</span>
@@ -138,25 +164,37 @@ const Dashboard = () => {
             <CardTitle>Ações Rápidas</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer">
+            <div 
+              className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer"
+              onClick={() => setClienteModalOpen(true)}
+            >
               <div className="flex items-center">
                 <Users className="h-4 w-4 text-accent mr-2" />
                 <span className="text-sm font-medium">Novo Cliente</span>
               </div>
             </div>
-            <div className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer">
+            <div 
+              className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer"
+              onClick={() => setAgendamentoModalOpen(true)}
+            >
               <div className="flex items-center">
                 <Calendar className="h-4 w-4 text-accent mr-2" />
                 <span className="text-sm font-medium">Agendar Entrega</span>
               </div>
             </div>
-            <div className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer">
+            <div 
+              className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer"
+              onClick={() => setEquipamentoModalOpen(true)}
+            >
               <div className="flex items-center">
                 <Package className="h-4 w-4 text-accent mr-2" />
                 <span className="text-sm font-medium">Cadastrar Equipamento</span>
               </div>
             </div>
-            <div className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer">
+            <div 
+              className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-smooth cursor-pointer"
+              onClick={() => setPagamentoModalOpen(true)}
+            >
               <div className="flex items-center">
                 <DollarSign className="h-4 w-4 text-accent mr-2" />
                 <span className="text-sm font-medium">Registrar Pagamento</span>
@@ -165,6 +203,12 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modals */}
+      <ClienteForm open={isClienteModalOpen} onOpenChange={setClienteModalOpen} />
+      <EquipamentoForm open={isEquipamentoModalOpen} onOpenChange={setEquipamentoModalOpen} />
+      <AgendamentoForm open={isAgendamentoModalOpen} onOpenChange={setAgendamentoModalOpen} />
+      <ContratoForm open={isPagamentoModalOpen} onOpenChange={setPagamentoModalOpen} />
     </div>
   )
 }

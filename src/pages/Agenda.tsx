@@ -2,9 +2,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, MapPin, Package, Plus, ChevronLeft, ChevronRight } from "lucide-react"
+import { useApp } from '@/contexts/AppContext'
+import AgendamentoForm from '@/components/forms/AgendamentoForm'
 
 const Agenda = () => {
-  const agendamentos = [
+  const { 
+    agendamentos, 
+    setAgendamentoModalOpen, 
+    isAgendamentoModalOpen,
+    setEditingAgendamento,
+    updateAgendamento
+  } = useApp()
+
+  const handleEditAgendamento = (agendamento: any) => {
+    setEditingAgendamento(agendamento)
+    setAgendamentoModalOpen(true)
+  }
+
+  const handleCancelarAgendamento = (id: number) => {
+    updateAgendamento(id, { status: 'Cancelado' })
+  }
     {
       id: 1,
       cliente: "João Silva",
@@ -70,7 +87,10 @@ const Agenda = () => {
           <p className="text-muted-foreground">Gerencie entregas e retiradas de equipamentos</p>
         </div>
         
-        <Button className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth">
+        <Button 
+          className="bg-gradient-primary hover:opacity-90 shadow-md transition-smooth"
+          onClick={() => setAgendamentoModalOpen(true)}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Novo Agendamento
         </Button>
@@ -210,10 +230,18 @@ const Agenda = () => {
                 </div>
                 
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleEditAgendamento(agendamento)}
+                  >
                     Editar
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleCancelarAgendamento(agendamento.id)}
+                  >
                     Cancelar
                   </Button>
                 </div>
@@ -222,6 +250,8 @@ const Agenda = () => {
           </div>
         </CardContent>
       </Card>
+
+      <AgendamentoForm open={isAgendamentoModalOpen} onOpenChange={setAgendamentoModalOpen} />
     </div>
   )
 }
