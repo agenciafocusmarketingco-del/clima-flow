@@ -34,34 +34,6 @@ const Financeiro = () => {
   const handleConfirmarPagamento = (id: number) => {
     updateContrato(id, { status: 'Pago' })
   }
-    {
-      id: 1,
-      cliente: "João Silva",
-      valor: 2500,
-      status: "Pago",
-      vencimento: "15/01/2024",
-      equipamento: "Ar Condicionado Split",
-      recorrencia: "Mensal"
-    },
-    {
-      id: 2,
-      cliente: "Maria Santos",
-      valor: 4200,
-      status: "Pendente",
-      vencimento: "20/01/2024",
-      equipamento: "Ar Condicionado Central",
-      recorrencia: "Mensal"
-    },
-    {
-      id: 3,
-      cliente: "Pedro Costa",
-      valor: 1800,
-      status: "Vencido",
-      vencimento: "10/01/2024",
-      equipamento: "Ventilador Industrial",
-      recorrencia: "Mensal"
-    }
-  ]
 
   const resumoMensal = {
     receita: 28450,

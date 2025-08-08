@@ -22,37 +22,6 @@ const Agenda = () => {
   const handleCancelarAgendamento = (id: number) => {
     updateAgendamento(id, { status: 'Cancelado' })
   }
-    {
-      id: 1,
-      cliente: "João Silva",
-      equipamento: "Ar Condicionado Split 12.000 BTUs",
-      tipo: "Entrega",
-      data: "2024-01-15",
-      hora: "09:00",
-      endereco: "Rua das Flores, 123 - São Paulo/SP",
-      status: "Confirmado"
-    },
-    {
-      id: 2,
-      cliente: "Maria Santos",
-      equipamento: "Ventilador Industrial",
-      tipo: "Retirada",
-      data: "2024-01-15",
-      hora: "14:00",
-      endereco: "Av. Paulista, 1000 - São Paulo/SP",
-      status: "Pendente"
-    },
-    {
-      id: 3,
-      cliente: "Pedro Costa",
-      equipamento: "Ar Condicionado Central",
-      tipo: "Entrega",
-      data: "2024-01-16",
-      hora: "08:00",
-      endereco: "Rua Augusta, 500 - São Paulo/SP",
-      status: "Confirmado"
-    }
-  ]
 
   const diasSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
   const mesAtual = "Janeiro 2024"
