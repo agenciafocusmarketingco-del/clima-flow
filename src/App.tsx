@@ -3,40 +3,35 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AppProvider } from "./contexts/AppContext";
 import { DashboardLayout } from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
-import Clientes from "./pages/Clientes";
-import Estoque from "./pages/Estoque";
-import Agenda from "./pages/Agenda";
-import Financeiro from "./pages/Financeiro";
-import Orcamentos from "./pages/Orcamentos";
+import { ClientsPage } from "./modules/clients/pages/ClientsPage";
+import { EquipmentPage } from "./modules/equipment/pages/EquipmentPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AppProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <DashboardLayout>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/clientes" element={<Clientes />} />
-              <Route path="/estoque" element={<Estoque />} />
-              <Route path="/agenda" element={<Agenda />} />
-              <Route path="/financeiro" element={<Financeiro />} />
-              <Route path="/orcamentos" element={<Orcamentos />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </DashboardLayout>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AppProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <DashboardLayout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/clients" element={<ClientsPage />} />
+            <Route path="/equipment" element={<EquipmentPage />} />
+            <Route path="/bookings" element={<div>Bookings - Em construção</div>} />
+            <Route path="/finance" element={<div>Finance - Em construção</div>} />
+            <Route path="/quotes" element={<div>Quotes - Em construção</div>} />
+            <Route path="/login" element={<div>Login - Em construção</div>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </DashboardLayout>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
