@@ -140,38 +140,38 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([
     {
       id: 1,
-      nome: "Ar Condicionado Split 12.000 BTUs",
-      categoria: "Ar Condicionado",
+      nome: "CT50 - Climatizador Evaporativo",
+      categoria: "Climatizador",
       status: "Disponível",
-      total: 20,
-      disponiveis: 15,
-      locados: 4,
-      manutencao: 1,
-      potencia: "12.000 BTUs",
+      total: 15,
+      disponiveis: 12,
+      locados: 3,
+      manutencao: 0,
+      potencia: "380W - 220V monofásico - 60Hz",
       ultimaManutencao: "10/01/2024"
     },
     {
       id: 2,
-      nome: "Ar Condicionado Central 60.000 BTUs",
-      categoria: "Ar Condicionado",
-      status: "Locado",
-      total: 10,
-      disponiveis: 8,
+      nome: "CT80 - Climatizador Evaporativo",
+      categoria: "Climatizador",
+      status: "Disponível",
+      total: 12,
+      disponiveis: 10,
       locados: 2,
       manutencao: 0,
-      potencia: "60.000 BTUs",
+      potencia: "510W - 220V monofásico - 60Hz",
       ultimaManutencao: "05/01/2024"
     },
     {
       id: 3,
-      nome: "Ventilador Industrial Grande",
-      categoria: "Ventilação",
-      status: "Manutenção",
-      total: 30,
-      disponiveis: 25,
-      locados: 3,
-      manutencao: 2,
-      potencia: "500W",
+      nome: "CT90 - Climatizador Evaporativo",
+      categoria: "Climatizador",
+      status: "Disponível",
+      total: 8,
+      disponiveis: 6,
+      locados: 2,
+      manutencao: 0,
+      potencia: "750W - 220V monofásico - 60Hz",
       ultimaManutencao: "20/12/2023"
     }
   ])
@@ -180,7 +180,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     {
       id: 1,
       cliente: "João Silva",
-      equipamento: "Ar Condicionado Split 12.000 BTUs",
+      equipamento: "CT50 - Climatizador Evaporativo",
       tipo: "Entrega",
       data: "2024-01-15",
       hora: "09:00",
@@ -190,9 +190,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     {
       id: 2,
       cliente: "Maria Santos",
-      equipamento: "Ventilador Industrial",
+      equipamento: "CT80 - Climatizador Evaporativo",
       tipo: "Retirada",
-      data: "2024-01-15",
+      data: "2024-01-16",
       hora: "14:00",
       endereco: "Av. Paulista, 1000 - São Paulo/SP",
       status: "Pendente"
@@ -200,9 +200,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     {
       id: 3,
       cliente: "Pedro Costa",
-      equipamento: "Ar Condicionado Central",
+      equipamento: "CT90 - Climatizador Evaporativo",
       tipo: "Entrega",
-      data: "2024-01-16",
+      data: "2024-01-17",
       hora: "08:00",
       endereco: "Rua Augusta, 500 - São Paulo/SP",
       status: "Confirmado"
@@ -213,28 +213,28 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     {
       id: 1,
       cliente: "João Silva",
-      valor: 2500,
+      valor: 1200,
       status: "Pago",
       vencimento: "15/01/2024",
-      equipamento: "Ar Condicionado Split",
+      equipamento: "CT50 - Climatizador Evaporativo",
       recorrencia: "Mensal"
     },
     {
       id: 2,
       cliente: "Maria Santos",
-      valor: 4200,
+      valor: 1800,
       status: "Pendente",
       vencimento: "20/01/2024",
-      equipamento: "Ar Condicionado Central",
+      equipamento: "CT80 - Climatizador Evaporativo",
       recorrencia: "Mensal"
     },
     {
       id: 3,
       cliente: "Pedro Costa",
-      valor: 1800,
+      valor: 2200,
       status: "Vencido",
       vencimento: "10/01/2024",
-      equipamento: "Ventilador Industrial",
+      equipamento: "CT90 - Climatizador Evaporativo",
       recorrencia: "Mensal"
     }
   ])

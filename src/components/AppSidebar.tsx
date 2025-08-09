@@ -5,6 +5,7 @@ import {
   Package,
   Calendar,
   CreditCard,
+  FileText,
   Settings,
   Building2
 } from "lucide-react"
@@ -42,6 +43,11 @@ const items = [
     title: "Agenda",
     url: "/agenda",
     icon: Calendar,
+  },
+  {
+    title: "Orçamentos",
+    url: "/orcamentos",
+    icon: FileText,
   },
   {
     title: "Financeiro",
