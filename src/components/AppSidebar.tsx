@@ -31,27 +31,27 @@ const items = [
   },
   {
     title: "Clientes",
-    url: "/clientes",
+    url: "/clients",
     icon: Users,
   },
   {
-    title: "Estoque",
-    url: "/estoque",
+    title: "Equipamentos",
+    url: "/equipment", 
     icon: Package,
   },
   {
-    title: "Agenda",
-    url: "/agenda",
+    title: "Locações",
+    url: "/bookings",
     icon: Calendar,
   },
   {
-    title: "Orçamentos",
-    url: "/orcamentos",
+    title: "Orçamentos", 
+    url: "/quotes",
     icon: FileText,
   },
   {
     title: "Financeiro",
-    url: "/financeiro",
+    url: "/finance",
     icon: CreditCard,
   },
 ]
