@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import { ClientsPage } from "./modules/clients/pages/ClientsPage";
 import { EquipmentPage } from "./modules/equipment/pages/EquipmentPage";
 import { BookingsPage } from "./modules/bookings/pages/BookingsPage";
+import { FinancePage } from "./modules/finance/pages/FinancePage";
+import { QuotesPage } from "./modules/quotes/pages/QuotesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,8 +27,8 @@ const App = () => (
             <Route path="/clients" element={<ClientsPage />} />
             <Route path="/equipment" element={<EquipmentPage />} />
             <Route path="/bookings" element={<BookingsPage />} />
-            <Route path="/finance" element={<div>Finance - Em construção</div>} />
-            <Route path="/quotes" element={<div>Quotes - Em construção</div>} />
+            <Route path="/finance" element={<FinancePage />} />
+            <Route path="/quotes" element={<QuotesPage />} />
             <Route path="/login" element={<div>Login - Em construção</div>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
