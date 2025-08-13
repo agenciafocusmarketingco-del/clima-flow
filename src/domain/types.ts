@@ -39,16 +39,68 @@ export type Equipment = z.infer<typeof EquipmentSchema>
 // Client Types
 export const ClientSchema = z.object({
   id: z.string(),
+  // Identificação
   name: z.string(),
-  doc: z.string().optional(),
+  clientType: z.enum(["person", "company"]).default("person"),
+  doc: z.string().optional(), // CPF/CNPJ
+  stateRegistration: z.string().optional(),
+  municipalRegistration: z.string().optional(),
+  company: z.string().optional(),
+  
+  // Contato
   email: z.string().email().optional(),
   phone: z.string().optional(),
+  cellPhone: z.string().optional(),
+  whatsapp: z.string().optional(),
+  
+  // Endereços
   address: z.string().optional(),
+  addressNumber: z.string().optional(),
+  complement: z.string().optional(),
+  neighborhood: z.string().optional(),
+  zipCode: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  
+  // Endereço de instalação (se diferente)
+  installationAddress: z.string().optional(),
+  installationNumber: z.string().optional(),
+  installationComplement: z.string().optional(),
+  installationNeighborhood: z.string().optional(),
+  installationZipCode: z.string().optional(),
+  installationCity: z.string().optional(),
+  installationState: z.string().optional(),
+  
+  // Preferências e peculiaridades
+  preferredEquipment: z.string().optional(),
+  safetyMarginHours: z.number().default(6),
+  accessNotes: z.string().optional(),
+  technicalNotes: z.string().optional(),
+  isVip: z.boolean().default(false),
+  
+  // Comunicação
+  preferredContact: z.enum(["phone", "email", "whatsapp"]).default("phone"),
+  communicationHistory: z.array(z.object({
+    id: z.string(),
+    date: z.string(),
+    type: z.enum(["call", "email", "whatsapp", "visit"]),
+    description: z.string(),
+    userId: z.string().optional()
+  })).default([]),
+  nextFollowUp: z.string().optional(),
+  
+  // Financeiro
+  paymentStatus: z.enum(["current", "pending", "overdue", "recurrent"]).default("current"),
+  creditLimit: z.number().optional(),
+  paymentTerms: z.number().default(0), // dias para pagamento
+  
+  // Sistema
+  status: z.enum(["active", "inactive"]).default("active"),
   notes: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  company: z.string().optional(),
-  status: z.enum(["active", "inactive"]),
-  lastBooking: z.string().optional()
+  tags: z.array(z.string()).default([]),
+  lastBooking: z.string().optional(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional()
 })
 
 export type Client = z.infer<typeof ClientSchema>

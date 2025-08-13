@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useAppStore } from "@/stores/appStore"
-import { ClientForm } from "../components/ClientForm"
+import { ClientProfileForm } from "../components/ClientProfileForm"
 import { ClientCard } from "../components/ClientCard"
 
 export function ClientsPage() {
@@ -152,7 +152,7 @@ export function ClientsPage() {
       )}
 
       {/* Client Form Modal */}
-      <ClientForm open={modals.clientForm} />
+      <ClientProfileForm open={modals.clientForm} />
     </div>
   )
 }
